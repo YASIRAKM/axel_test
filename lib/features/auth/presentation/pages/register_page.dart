@@ -1,6 +1,7 @@
 import 'dart:io';
-import 'package:axel_todo_test/core/services/navigation_service.dart';
+
 import '../../../../core/config/app_routes.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -91,10 +92,7 @@ class _RegisterPageContentState extends State<_RegisterPageContent> {
           if (state is AuthError) {
             SnackbarService.showError(state.message);
           } else if (state is AuthAuthenticated) {
-            NavigationService.pushNamedAndRemoveUntil(
-              AppRoutes.home,
-              (route) => false,
-            );
+            context.goNamed(AppRoutes.home);
           }
         },
         builder: (context, authState) {

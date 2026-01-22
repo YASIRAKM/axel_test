@@ -2,7 +2,8 @@ import 'package:axel_todo_test/core/config/app_routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/services/navigation_service.dart';
+import 'package:go_router/go_router.dart';
+
 import '../../../../core/services/snackbar_service.dart';
 import '../../../../core/widgets/confirmation_dialog.dart';
 import '../bloc/settings_bloc.dart';
@@ -16,9 +17,7 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(
-        context,
-      ).scaffoldBackgroundColor, 
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: CustomScrollView(
         slivers: [
           const SliverAppBar.large(title: Text('Settings')),
@@ -31,7 +30,7 @@ class SettingsPage extends StatelessWidget {
                     icon: CupertinoIcons.person_fill,
                     iconBgColor: Colors.blue,
                     title: 'Edit Profile',
-                    onTap: () => NavigationService.pushNamed(AppRoutes.profile),
+                    onTap: () => context.pushNamed(AppRoutes.profile),
                   ),
                 ],
               ),
@@ -57,12 +56,11 @@ class SettingsPage extends StatelessWidget {
                           );
                         },
                       );
-                    }
+                    },
                   ),
                 ],
               ),
 
-              
               _SettingsSection(
                 title: 'Data',
                 children: [
@@ -72,10 +70,7 @@ class SettingsPage extends StatelessWidget {
                         SnackbarService.show(state.message!);
                         if (state.message!.contains('Success')) {
                           context.read<AuthBloc>().add(AuthLogoutRequested());
-                          NavigationService.pushNamedAndRemoveUntil(
-                            AppRoutes.splash,
-                            (route) => false,
-                          );
+                          context.goNamed(AppRoutes.splash);
                         }
                       }
                     },
@@ -131,10 +126,7 @@ class SettingsPage extends StatelessWidget {
 
                       if (confirmed == true) {
                         context.read<AuthBloc>().add(AuthLogoutRequested());
-                        NavigationService.pushNamedAndRemoveUntil(
-                         AppRoutes.splash,
-                          (route) => false,
-                        );
+                        context.goNamed(AppRoutes.splash);
                       }
                     },
                   ),
@@ -176,7 +168,7 @@ class _SettingsSection extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(16), 
+            borderRadius: BorderRadius.circular(16),
           ),
           child: Column(
             children: [
@@ -184,9 +176,7 @@ class _SettingsSection extends StatelessWidget {
                 children[i],
                 if (i != children.length - 1)
                   Padding(
-                    padding: const EdgeInsets.only(
-                      left: 64,
-                    ), 
+                    padding: const EdgeInsets.only(left: 64),
                     child: Divider(
                       height: 1,
                       thickness: 0.5,
@@ -258,7 +248,7 @@ class _SettingsTile extends StatelessWidget {
                 Switch.adaptive(
                   value: switchValue,
                   onChanged: onSwitchChanged,
-                  activeColor: Colors.green, 
+                  activeColor: Colors.green,
                 )
               else if (trailing != null)
                 trailing!

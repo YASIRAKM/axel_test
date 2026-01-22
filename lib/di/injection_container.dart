@@ -1,3 +1,4 @@
+import 'package:axel_todo_test/core/config/app_router.dart';
 import 'package:axel_todo_test/core/config/app_constanst.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -29,13 +30,11 @@ import '../features/settings/presentation/bloc/settings_bloc.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
-
   await Hive.initFlutter();
   Hive.registerAdapter(UserModelAdapter());
   Hive.registerAdapter(TodoModelAdapter());
 
-
-  sl.registerFactory(
+  sl.registerLazySingleton(
     () => AuthBloc(
       loginUser: sl(),
       registerUser: sl(),
@@ -44,6 +43,8 @@ Future<void> init() async {
       getRememberedUser: sl(),
     ),
   );
+
+  sl.registerLazySingleton(() => AppRouter(authBloc: sl()));
 
   sl.registerLazySingleton(() => LoginUser(sl()));
   sl.registerLazySingleton(() => RegisterUser(sl()));
@@ -76,12 +77,10 @@ Future<void> init() async {
     () => TodoBloc(getTodos: sl(), toggleFavorite: sl(), searchTodos: sl()),
   );
 
-  
   sl.registerLazySingleton(() => GetTodos(sl()));
   sl.registerLazySingleton(() => ToggleTodoFavorite(sl()));
   sl.registerLazySingleton(() => SearchTodos(sl()));
 
-  
   sl.registerLazySingleton<TodoRepository>(
     () => TodoRepositoryImpl(
       remoteDataSource: sl(),
@@ -90,7 +89,6 @@ Future<void> init() async {
     ),
   );
 
-
   sl.registerLazySingleton<TodoRemoteDataSource>(
     () => TodoRemoteDataSourceImpl(dio: sl()),
   );
@@ -98,11 +96,9 @@ Future<void> init() async {
     () => TodoLocalDataSourceImpl(todoBox: sl()),
   );
 
-  
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
   sl.registerLazySingleton<FileStorageService>(() => FileStorageServiceImpl());
 
-  
   final userBox = await Hive.openBox<UserModel>(AppConstants.userBox);
   sl.registerLazySingleton(() => userBox);
 
@@ -112,12 +108,9 @@ Future<void> init() async {
   final sessionBox = await Hive.openBox(AppConstants.sessionBox);
   sl.registerLazySingleton(() => sessionBox);
 
-  final themeBox = await Hive.openBox(AppConstants.themeBox); 
-  sl.registerSingleton<Box>(
-    themeBox,
-    instanceName: 'theme_box',
-  ); 
-  
+  final themeBox = await Hive.openBox(AppConstants.themeBox);
+  sl.registerSingleton<Box>(themeBox, instanceName: 'theme_box');
+
   sl.registerFactory(
     () => SettingsBloc(
       themeBox: themeBox,

@@ -1,8 +1,9 @@
 import 'package:axel_todo_test/core/config/app_routes.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/services/navigation_service.dart';
+
 import '../../../../core/widgets/error_display.dart';
 import '../../../../core/widgets/skeleton_loader.dart';
 import '../../../../di/injection_container.dart';
@@ -77,14 +78,14 @@ class _HomeViewState extends State<HomeView> {
                   iconSize: 35,
                   icon: const Icon(CupertinoIcons.person_alt_circle),
                   onPressed: () {
-                    NavigationService.pushNamed(AppRoutes.profile);
+                    context.pushNamed(AppRoutes.profile);
                   },
                 ),
                 IconButton(
                   iconSize: 35,
                   icon: const Icon(CupertinoIcons.settings),
                   onPressed: () {
-                    NavigationService.pushNamed(AppRoutes.settings);
+                    context.pushNamed(AppRoutes.settings);
                   },
                 ),
               ],

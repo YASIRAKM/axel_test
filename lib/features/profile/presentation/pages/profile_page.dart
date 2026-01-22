@@ -1,4 +1,4 @@
-import 'package:axel_todo_test/core/services/navigation_service.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -70,7 +70,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   void _populateFields(BuildContext context, User user) {
     _currentUser = user;
-    
+
     if (_usernameController.text.isEmpty) {
       _usernameController.text = user.username;
     }
@@ -148,7 +148,7 @@ class _ProfileViewState extends State<ProfileView> {
             if (!didPop) {
               final shouldPop = await _onWillPop(context, formState.isDirty);
               if (shouldPop) {
-                NavigationService.pop();
+                context.pop();
               }
             }
           },
@@ -248,7 +248,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       _saveProfile(context, formState),
                                   isLoading: profileState is ProfileLoading,
                                 ),
-                                const SizedBox(height: 40), 
+                                const SizedBox(height: 40),
                               ],
                             ),
                           ),

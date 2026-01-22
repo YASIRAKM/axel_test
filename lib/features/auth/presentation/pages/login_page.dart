@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/widgets/custom_text_field.dart';
 import '../../../../core/widgets/primary_button.dart';
-import '../../../../core/services/navigation_service.dart';
+
 import '../../../../core/services/snackbar_service.dart';
+import 'package:go_router/go_router.dart';
 
 import '../bloc/auth_bloc.dart';
 
@@ -49,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
           if (state is AuthError) {
             SnackbarService.showError(state.message);
           } else if (state is AuthAuthenticated) {
-            NavigationService.pushReplacementNamed(AppRoutes.home);
+            context.goNamed(AppRoutes.home);
           } else if (state is AuthUnauthenticated) {
             if (state.username != null) {
               _usernameController.text = state.username!;
@@ -161,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(height: 16),
                         TextButton(
                           onPressed: () {
-                            NavigationService.pushNamed(AppRoutes.register);
+                            context.pushNamed(AppRoutes.register);
                           },
                           child: const Text('Don\'t have an account? Register'),
                         ),
