@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
 
 import '../../features/auth/presentation/pages/login_page.dart';
@@ -13,7 +12,9 @@ import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 import '../../features/todo/presentation/pages/home_page.dart';
 import 'app_routes.dart';
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class AppRouter {
   final AuthBloc authBloc;
 
@@ -52,26 +53,32 @@ class AppRouter {
     },
     routes: [
       GoRoute(
+        name: AppRoutes.splash,
         path: AppRoutes.splash,
         builder: (context, state) => const SplashPage(),
       ),
       GoRoute(
+        name: AppRoutes.login,
         path: AppRoutes.login,
         builder: (context, state) => const LoginPage(),
       ),
       GoRoute(
+        name: AppRoutes.register,
         path: AppRoutes.register,
         builder: (context, state) => const RegisterPage(),
       ),
       GoRoute(
+        name: AppRoutes.home,
         path: AppRoutes.home,
         builder: (context, state) => const HomePage(),
       ),
       GoRoute(
+        name: AppRoutes.profile,
         path: AppRoutes.profile,
         builder: (context, state) => const ProfilePage(),
       ),
       GoRoute(
+        name: AppRoutes.settings,
         path: AppRoutes.settings,
         builder: (context, state) => const SettingsPage(),
       ),
